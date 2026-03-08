@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Environment files — NEVER commit real credentials
+.env
+.env.local
+.env.production
+
+# Next.js build output
+.next/
+out/
+
+# General
+.DS_Store
+*.log

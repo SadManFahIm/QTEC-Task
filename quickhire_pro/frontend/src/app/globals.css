@@ -1,0 +1,88 @@
+/*
+ * app/globals.css — Global Stylesheet
+ *
+ * This file is imported once in layout.js and applies to every page.
+ *
+ * STRUCTURE:
+ *   1. Google Font import (Plus Jakarta Sans)
+ *   2. Tailwind directives (@tailwind base/components/utilities)
+ *   3. CSS custom properties (design tokens)
+ *   4. Base element styles
+ *   5. Reusable component classes (@layer components)
+ *
+ * FONT CHOICE:
+ *   Plus Jakarta Sans is a modern, geometric sans-serif that closely
+ *   matches the typography used in the Figma design. It's loaded from
+ *   Google Fonts via a CSS @import for simplicity — in production you'd
+ *   use next/font for better performance (no render-blocking request).
+ *
+ * DESIGN TOKENS:
+ *   CSS custom properties defined in :root allow us to reference the
+ *   brand colours in plain CSS (e.g. var(--primary)) alongside the
+ *   Tailwind utility classes that reference the same values via
+ *   tailwind.config.js.
+ */
+
+/* ── Google Font ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ── Tailwind layers ─────────────────────────────────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ───────────────────────────────────────── */
+:root {
+  --primary:       #4F46E5; /* Indigo — primary brand colour */
+  --primary-light: #6366F1; /* Slightly lighter variant */
+  --primary-dark:  #3730A3; /* Hover / pressed state */
+  --dark:          #1A1A2E; /* Near-black used for headings */
+}
+
+/* ── Base reset ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #1A1A2E; /* matches --dark */
+  -webkit-font-smoothing: antialiased; /* crisper text on macOS/iOS */
+}
+
+/* ── Reusable component classes ──────────────────────────── */
+/*
+ * @layer components keeps these classes between Tailwind's base and
+ * utilities layers. They can be overridden by utility classes if needed.
+ *
+ * Most styling is done inline via Tailwind utilities in the JSX.
+ * Only patterns used in 3+ places are extracted to named classes here.
+ */
+@layer components {
+
+  /* Primary filled button */
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition-all duration-200;
+  }
+
+  /* Outlined / ghost button */
+  .btn-outline {
+    @apply border-2 border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition-all duration-200;
+  }
+
+  /* ── Category badge colour variants ─────────────────────
+     Used on JobCard and JobListItem to colour-code categories.
+     The mapping lives in lib/api.js (getCategoryBadgeClass). */
+
+  .badge-base        { @apply text-xs font-semibold px-3 py-1 rounded-full; }
+  .badge-marketing   { @apply badge-base bg-green-100  text-green-700;  }
+  .badge-design      { @apply badge-base bg-purple-100 text-purple-700; }
+  .badge-technology  { @apply badge-base bg-blue-100   text-blue-700;   }
+  .badge-business    { @apply badge-base bg-orange-100 text-orange-700; }
+  .badge-engineering { @apply badge-base bg-yellow-100 text-yellow-700; }
+  .badge-hr          { @apply badge-base bg-pink-100   text-pink-700;   }
+  .badge-finance     { @apply badge-base bg-teal-100   text-teal-700;   }
+  .badge-sales       { @apply badge-base bg-red-100    text-red-700;    }
+}
